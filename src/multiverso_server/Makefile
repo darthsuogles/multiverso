@@ -80,14 +80,14 @@ rebuild_cache/fast: rebuild_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/philip/CodeBase/lightlda/multiverso/CMakeFiles /home/philip/CodeBase/lightlda/multiverso/CMakeFiles/progress.marks
-	$(MAKE) -f CMakeFiles/Makefile2 all
+	cd /home/philip/CodeBase/lightlda/multiverso && $(CMAKE_COMMAND) -E cmake_progress_start /home/philip/CodeBase/lightlda/multiverso/CMakeFiles /home/philip/CodeBase/lightlda/multiverso/src/multiverso_server/CMakeFiles/progress.marks
+	cd /home/philip/CodeBase/lightlda/multiverso && $(MAKE) -f CMakeFiles/Makefile2 src/multiverso_server/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/philip/CodeBase/lightlda/multiverso/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
 clean:
-	$(MAKE) -f CMakeFiles/Makefile2 clean
+	cd /home/philip/CodeBase/lightlda/multiverso && $(MAKE) -f CMakeFiles/Makefile2 src/multiverso_server/clean
 .PHONY : clean
 
 # The main clean target
@@ -97,44 +97,87 @@ clean/fast: clean
 
 # Prepare targets for installation.
 preinstall: all
-	$(MAKE) -f CMakeFiles/Makefile2 preinstall
+	cd /home/philip/CodeBase/lightlda/multiverso && $(MAKE) -f CMakeFiles/Makefile2 src/multiverso_server/preinstall
 .PHONY : preinstall
 
 # Prepare targets for installation.
 preinstall/fast:
-	$(MAKE) -f CMakeFiles/Makefile2 preinstall
+	cd /home/philip/CodeBase/lightlda/multiverso && $(MAKE) -f CMakeFiles/Makefile2 src/multiverso_server/preinstall
 .PHONY : preinstall/fast
 
 # clear depends
 depend:
-	$(CMAKE_COMMAND) -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
+	cd /home/philip/CodeBase/lightlda/multiverso && $(CMAKE_COMMAND) -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
 .PHONY : depend
 
-#=============================================================================
-# Target rules for targets named multiverso
+# Convenience name for target.
+src/multiverso_server/CMakeFiles/multiverso.server.dir/rule:
+	cd /home/philip/CodeBase/lightlda/multiverso && $(MAKE) -f CMakeFiles/Makefile2 src/multiverso_server/CMakeFiles/multiverso.server.dir/rule
+.PHONY : src/multiverso_server/CMakeFiles/multiverso.server.dir/rule
 
-# Build rule for target.
-multiverso: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 multiverso
-.PHONY : multiverso
+# Convenience name for target.
+multiverso.server: src/multiverso_server/CMakeFiles/multiverso.server.dir/rule
 
-# fast build rule for target.
-multiverso/fast:
-	$(MAKE) -f src/multiverso/CMakeFiles/multiverso.dir/build.make src/multiverso/CMakeFiles/multiverso.dir/build
-.PHONY : multiverso/fast
-
-#=============================================================================
-# Target rules for targets named multiverso.server
-
-# Build rule for target.
-multiverso.server: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 multiverso.server
 .PHONY : multiverso.server
 
 # fast build rule for target.
 multiverso.server/fast:
-	$(MAKE) -f src/multiverso_server/CMakeFiles/multiverso.server.dir/build.make src/multiverso_server/CMakeFiles/multiverso.server.dir/build
+	cd /home/philip/CodeBase/lightlda/multiverso && $(MAKE) -f src/multiverso_server/CMakeFiles/multiverso.server.dir/build.make src/multiverso_server/CMakeFiles/multiverso.server.dir/build
 .PHONY : multiverso.server/fast
+
+cl_parser.o: cl_parser.cpp.o
+
+.PHONY : cl_parser.o
+
+# target to build an object file
+cl_parser.cpp.o:
+	cd /home/philip/CodeBase/lightlda/multiverso && $(MAKE) -f src/multiverso_server/CMakeFiles/multiverso.server.dir/build.make src/multiverso_server/CMakeFiles/multiverso.server.dir/cl_parser.cpp.o
+.PHONY : cl_parser.cpp.o
+
+cl_parser.i: cl_parser.cpp.i
+
+.PHONY : cl_parser.i
+
+# target to preprocess a source file
+cl_parser.cpp.i:
+	cd /home/philip/CodeBase/lightlda/multiverso && $(MAKE) -f src/multiverso_server/CMakeFiles/multiverso.server.dir/build.make src/multiverso_server/CMakeFiles/multiverso.server.dir/cl_parser.cpp.i
+.PHONY : cl_parser.cpp.i
+
+cl_parser.s: cl_parser.cpp.s
+
+.PHONY : cl_parser.s
+
+# target to generate assembly for a file
+cl_parser.cpp.s:
+	cd /home/philip/CodeBase/lightlda/multiverso && $(MAKE) -f src/multiverso_server/CMakeFiles/multiverso.server.dir/build.make src/multiverso_server/CMakeFiles/multiverso.server.dir/cl_parser.cpp.s
+.PHONY : cl_parser.cpp.s
+
+main.o: main.cpp.o
+
+.PHONY : main.o
+
+# target to build an object file
+main.cpp.o:
+	cd /home/philip/CodeBase/lightlda/multiverso && $(MAKE) -f src/multiverso_server/CMakeFiles/multiverso.server.dir/build.make src/multiverso_server/CMakeFiles/multiverso.server.dir/main.cpp.o
+.PHONY : main.cpp.o
+
+main.i: main.cpp.i
+
+.PHONY : main.i
+
+# target to preprocess a source file
+main.cpp.i:
+	cd /home/philip/CodeBase/lightlda/multiverso && $(MAKE) -f src/multiverso_server/CMakeFiles/multiverso.server.dir/build.make src/multiverso_server/CMakeFiles/multiverso.server.dir/main.cpp.i
+.PHONY : main.cpp.i
+
+main.s: main.cpp.s
+
+.PHONY : main.s
+
+# target to generate assembly for a file
+main.cpp.s:
+	cd /home/philip/CodeBase/lightlda/multiverso && $(MAKE) -f src/multiverso_server/CMakeFiles/multiverso.server.dir/build.make src/multiverso_server/CMakeFiles/multiverso.server.dir/main.cpp.s
+.PHONY : main.cpp.s
 
 # Help Target
 help:
@@ -144,8 +187,13 @@ help:
 	@echo "... depend"
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
-	@echo "... multiverso"
 	@echo "... multiverso.server"
+	@echo "... cl_parser.o"
+	@echo "... cl_parser.i"
+	@echo "... cl_parser.s"
+	@echo "... main.o"
+	@echo "... main.i"
+	@echo "... main.s"
 .PHONY : help
 
 
@@ -157,6 +205,6 @@ help:
 # No rule that depends on this can have commands that come from listfiles
 # because they might be regenerated.
 cmake_check_build_system:
-	$(CMAKE_COMMAND) -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 0
+	cd /home/philip/CodeBase/lightlda/multiverso && $(CMAKE_COMMAND) -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 0
 .PHONY : cmake_check_build_system
 

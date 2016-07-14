@@ -80,14 +80,14 @@ rebuild_cache/fast: rebuild_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/philip/CodeBase/lightlda/multiverso/CMakeFiles /home/philip/CodeBase/lightlda/multiverso/CMakeFiles/progress.marks
-	$(MAKE) -f CMakeFiles/Makefile2 all
+	cd /home/philip/CodeBase/lightlda/multiverso && $(CMAKE_COMMAND) -E cmake_progress_start /home/philip/CodeBase/lightlda/multiverso/CMakeFiles /home/philip/CodeBase/lightlda/multiverso/src/CMakeFiles/progress.marks
+	cd /home/philip/CodeBase/lightlda/multiverso && $(MAKE) -f CMakeFiles/Makefile2 src/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/philip/CodeBase/lightlda/multiverso/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
 clean:
-	$(MAKE) -f CMakeFiles/Makefile2 clean
+	cd /home/philip/CodeBase/lightlda/multiverso && $(MAKE) -f CMakeFiles/Makefile2 src/clean
 .PHONY : clean
 
 # The main clean target
@@ -97,44 +97,18 @@ clean/fast: clean
 
 # Prepare targets for installation.
 preinstall: all
-	$(MAKE) -f CMakeFiles/Makefile2 preinstall
+	cd /home/philip/CodeBase/lightlda/multiverso && $(MAKE) -f CMakeFiles/Makefile2 src/preinstall
 .PHONY : preinstall
 
 # Prepare targets for installation.
 preinstall/fast:
-	$(MAKE) -f CMakeFiles/Makefile2 preinstall
+	cd /home/philip/CodeBase/lightlda/multiverso && $(MAKE) -f CMakeFiles/Makefile2 src/preinstall
 .PHONY : preinstall/fast
 
 # clear depends
 depend:
-	$(CMAKE_COMMAND) -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
+	cd /home/philip/CodeBase/lightlda/multiverso && $(CMAKE_COMMAND) -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
 .PHONY : depend
-
-#=============================================================================
-# Target rules for targets named multiverso
-
-# Build rule for target.
-multiverso: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 multiverso
-.PHONY : multiverso
-
-# fast build rule for target.
-multiverso/fast:
-	$(MAKE) -f src/multiverso/CMakeFiles/multiverso.dir/build.make src/multiverso/CMakeFiles/multiverso.dir/build
-.PHONY : multiverso/fast
-
-#=============================================================================
-# Target rules for targets named multiverso.server
-
-# Build rule for target.
-multiverso.server: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 multiverso.server
-.PHONY : multiverso.server
-
-# fast build rule for target.
-multiverso.server/fast:
-	$(MAKE) -f src/multiverso_server/CMakeFiles/multiverso.server.dir/build.make src/multiverso_server/CMakeFiles/multiverso.server.dir/build
-.PHONY : multiverso.server/fast
 
 # Help Target
 help:
@@ -144,8 +118,6 @@ help:
 	@echo "... depend"
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
-	@echo "... multiverso"
-	@echo "... multiverso.server"
 .PHONY : help
 
 
@@ -157,6 +129,6 @@ help:
 # No rule that depends on this can have commands that come from listfiles
 # because they might be regenerated.
 cmake_check_build_system:
-	$(CMAKE_COMMAND) -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 0
+	cd /home/philip/CodeBase/lightlda/multiverso && $(CMAKE_COMMAND) -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 0
 .PHONY : cmake_check_build_system
 
