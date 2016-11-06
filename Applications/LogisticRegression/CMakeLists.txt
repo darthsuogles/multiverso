@@ -34,4 +34,4 @@ set(SRC ${SRC_MODEL} ${SRC_OBJECTIVE} ${SRC_REGULAR} ${SRC_UPDATER} ${SRC_UTIL} 
 
 add_executable(LogReg ${SRC})
 
-target_link_libraries(LogReg multiverso ${MPI_CXX_LIBRARIES})
+target_link_libraries(LogReg multiverso ${MPI_CXX_LIBRARIES} pthread)

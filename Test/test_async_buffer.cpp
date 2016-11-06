@@ -1,3 +1,5 @@
+#include <cstdlib>
+#include <cmath>
 #include <gtest/gtest.h>
 #include <multiverso/multiverso.h>
 #include <multiverso/table/array_table.h>
@@ -27,7 +29,7 @@ class test_async_buffer : public ::testing::Test {
 
     static bool elementwise_equal(float * array, size_t size, float target) {
         for (auto i = 0; i < size; ++i) {
-            if (abs(array[i] - target) > 1e-6) {
+            if (fabs(array[i] - target) > 1e-6) {
                 return false;
             }
         }
