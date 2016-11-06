@@ -27,7 +27,7 @@ public:
   // number of epoch when train
   int train_epoch = 1;
   // minibatch size for sgds
-  int minibatch_size = 1;
+  int minibatch_size = 20;
   // buffer size for async reader
   int read_buffer_size = 2048;
   // show statistic time after process each # sample
@@ -35,9 +35,13 @@ public:
   int show_time_per_sample = 10000;
 
   // coefficient for regularization term 
-  double regular_coef = 0.0001;
+  double regular_coef = 0.0005;
   // initial learning rate
   double learning_rate = 0.8;
+  // learning rate = max(1e-3, 
+  //      initial - (update count - learning rate coef * minibatch size))
+  // one mini-batch update once
+  double learning_rate_coef = 1e6;
 
   // FTRL parameters
   double alpha = 0.005;
@@ -47,8 +51,8 @@ public:
 
   // when provided, will load model data when LogReg init
   std::string init_model_file = "";
-  // input data for trainning
-  // use ; to seperate different files
+  // input data for training
+  // use ; to separate different files
   std::string train_file = "train.data";
   // default / weight / ftrl
   // [default]
@@ -58,7 +62,7 @@ public:
   //    2. dense data use format as
   //      label value value ...
   // [weight]
-  //  the first colum is label:weight(double)
+  //  the first column is label:weight(double)
   //  others the same to default
   // [bsparse]
   //  for sparse data, read binary file, each sample as:
@@ -67,7 +71,8 @@ public:
 
   // input data for test
   // the same format with train data
-  std::string test_file = "test.data";
+  // won't do test when file name is empty
+  std::string test_file = "";
   // path to save binary model data
   std::string output_model_file = "logreg.model";
   // path to save test result

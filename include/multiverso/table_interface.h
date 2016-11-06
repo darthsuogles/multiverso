@@ -55,7 +55,6 @@ private:
   int msg_id_;
 };
 
-// TODO(feiga): move to a seperate file
 class Stream;
 
 // interface for checkpoint table
@@ -65,7 +64,7 @@ public:
   virtual void Load(Stream* s) = 0;
 };
 
-// discribe the server parameter storage data structure and related method
+// describe the server parameter storage data structure and related method
 class ServerTable : public Serializable {
 public:
   ServerTable();

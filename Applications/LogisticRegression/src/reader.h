@@ -15,7 +15,7 @@
 
 namespace logreg {
 
-// a async reader for reading matrix data
+// an async reader for reading matrix data
 // each line as a row
 template<typename EleType>
 class SampleReader {
@@ -57,6 +57,7 @@ class SampleReader {
 protected:
   virtual void Main();
   virtual void ParseLine(const std::string&line, int idx);
+  void DeleteKeys();
 
 protected:
   using TextReader = multiverso::TextReader;

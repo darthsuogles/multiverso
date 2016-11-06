@@ -16,6 +16,7 @@ class Monitor;
 class Dashboard {
 public:
   static void AddMonitor(const std::string& name, Monitor* monitor);
+  static void RemoveMonitor(const std::string& name);
   static std::string Watch(const std::string& name);
   static void Display();
 private:
@@ -60,7 +61,7 @@ private:
 #define REGISTER_MONITOR(name)           \
   static Monitor g_##name##_monitor(#name);
 
-// Guard with MONITOR macro in the code to monitor it's excuation
+// Guard with MONITOR macro in the code to monitor it's execution
 // Usage:
 // MONITOR_BEGIN(your_code_short_description)
 // your code

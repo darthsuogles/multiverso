@@ -16,16 +16,17 @@ LogReg<EleType>::LogReg(const std::string &config_file) {
   config_ = new Configure(config_file);
 
   LR_CHECK((config_->input_size > 0) 
+    && config_->read_buffer_size > 0
     && (!config_->sparse || config_->output_size > 0));
   // for delat
   config_->input_size += 1;
 
   if (config_->read_buffer_size % config_->minibatch_size != 0) {
-    config_->read_buffer_size 
-      -= (config_->read_buffer_size % config_->minibatch_size);
-    // read buffer size should not be too small
-    LR_CHECK(config_->read_buffer_size > config_->minibatch_size);
+    config_->read_buffer_size += config_->minibatch_size
+      - (config_->read_buffer_size % config_->minibatch_size);
   }
+  LR_CHECK(!config_->use_ps || !config_->pipeline || !config_->sparse || 
+    (config_->read_buffer_size >= config_->minibatch_size * config_->sync_frequency));
 
   model_ = Model<EleType>::Get(*config_);
 }
@@ -54,6 +55,7 @@ void LogReg<EleType>::Train(const std::string& train_file) {
   int count = 0;
   int train_epoch = config_->train_epoch;
   size_t sample_seen = 0;
+  float train_loss = 0.0f;
   size_t last = 0;
   for (int ep = 0; ep < train_epoch; ++ep) {
     reader->Reset();
@@ -65,11 +67,12 @@ void LogReg<EleType>::Train(const std::string& train_file) {
       while ((count = reader->Read(buffer_size, samples))) {
         Log::Write(Debug, "model training %d samples, sample seen %d\n", 
           count, sample_seen);
-        model_->Update(count, samples);
+        train_loss += model_->Update(count, samples);
         sample_seen += count;
         if (sample_seen - last >= config_->show_time_per_sample) {
+          Log::Write(Info, "Sample seen %lld, train loss %f\n", sample_seen, train_loss / (sample_seen - last));
+          train_loss = 0.0f;
           last = sample_seen;
-          Log::Write(Info, "Sample seen %lld\n", sample_seen);
           model_->DisplayTime();
         }
         reader->Free(count);
@@ -116,6 +119,9 @@ void SaveOutput(multiverso::Stream* stream, int num_output,
 
 template<typename EleType>
 double LogReg<EleType>::Test(const std::string& test_file, EleType**result) {
+  if (test_file == "") {
+    return 0.0;
+  }
   Log::Write(Info, "Test with file %s\n", test_file.c_str());
 
   int buffer_size = config_->read_buffer_size;
@@ -141,7 +147,7 @@ double LogReg<EleType>::Test(const std::string& test_file, EleType**result) {
     multiverso::URI(config_->output_file), 
     multiverso::FileOpenMode::Write);
 
-  int correct_count = 0;
+  size_t correct_count = 0;
   size_t total_sample = 0;
   model_->SetKeys(reader->keys());
   do {

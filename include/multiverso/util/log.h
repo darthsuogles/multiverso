@@ -86,7 +86,7 @@ public:
   void Fatal(const char *format, ...);
 
 private:
-  void Write(LogLevel level, const char* format, va_list* val);
+  void WriteImpl(LogLevel level, const char* format, va_list* val);
   void CloseLogFile();
   // Returns current system time as a string.
   std::string GetSystemTime();
@@ -94,7 +94,7 @@ private:
   std::string GetLevelStr(LogLevel level);
 
   std::FILE *file_;  // A file pointer to the log file.
-  LogLevel level_;   // Only the message not less than level_ will be outputed.
+  LogLevel level_;   // Only the message not less than level_ will be outputted.
   bool is_kill_fatal_;  // If kill the process when fatal error occurs.
 
   // No copying allowed
@@ -126,7 +126,7 @@ public:
   static void ResetLogLevel(LogLevel level);
   /*!
   * \brief Resets the option of whether kill the process when fatal
-  *        error occurs. By defualt the option is false.
+  *        error occurs. By default the option is false.
   */
   static void ResetKillFatal(bool is_kill_fatal);
 

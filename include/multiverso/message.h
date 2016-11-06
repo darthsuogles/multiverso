@@ -25,10 +25,6 @@ enum MsgType {
 
 class Message {
 public:
-  Message() { }
-
-  ~Message() { }
-
   MsgType type() const { return static_cast<MsgType>(header_[2]); }
   inline int src() const { return header_[0]; }
   inline int dst() const { return header_[1]; }
@@ -41,7 +37,8 @@ public:
   inline void set_table_id(int table_id) { header_[3] = table_id; }
   inline void set_msg_id(int msg_id) { header_[4] = msg_id; }
 
-  inline void set_data(const std::vector<Blob>& data) { data_ = std::move(data); }
+  inline void set_data(const std::vector<Blob>& data) { 
+    data_ = std::move(data); }
   inline std::vector<Blob>& data() { return data_; }
   inline size_t size() const { return data_.size(); }
 
@@ -49,8 +46,6 @@ public:
   inline const int* header() const { return header_; }
   static const int kHeaderSize = 8 * sizeof(int);
 
-  // Deep Copy
-  Message* CopyFrom(const Message& src);
   // Create a Message with only headers
   // The src/dst, type is opposite with src message
   inline Message* CreateReplyMessage() {

@@ -51,7 +51,12 @@ struct URI {
     if (scheme == "hdfs" && host.length() == 0) host = "default";
 
     name = uri.substr(start, std::string::npos);
-    path = scheme + "://" + host + name;
+    if (scheme == "hdfs") {
+      path = scheme + "://" + host + name;
+    }
+    else {
+      path = uri;
+    }
   }
 };
 
@@ -66,7 +71,7 @@ public:
 
   /*!
   * \brief read data from Stream
-  * \param buf pointer to a memory buffe;
+  * \param buf pointer to a memory buffer;
   * \param size the size of buf
   */
   virtual size_t Read(void *buf, size_t size) = 0;

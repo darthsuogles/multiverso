@@ -2,11 +2,15 @@
 
 #include <time.h>
 #include <stdarg.h>
-
 #include <string>
 
+#include "multiverso/util/configure.h"
+
 namespace multiverso {
-// Creates a Logger intance writing messages into STDOUT.
+
+MV_DEFINE_bool(logtostderr, false, "whether output log to stderr");
+
+// Creates a Logger instance writing messages into STDOUT.
 Logger::Logger(LogLevel level) {
   level_ = level;
   file_ = nullptr;
@@ -33,7 +37,7 @@ int Logger::ResetLogFile(std::string filename) {
     file_ = fopen(filename.c_str(), "w");
 #endif
     if (file_ == nullptr) {
-      Error("Cannot create log file %s\n", filename.c_str());
+      Write(LogLevel::Error, "Cannot create log file %s\n", filename.c_str());
       return -1;
     }
   }
@@ -43,48 +47,54 @@ int Logger::ResetLogFile(std::string filename) {
 void Logger::Write(LogLevel level, const char *format, ...) {
   va_list val;
   va_start(val, format);
-  Write(level, format, val);
+  WriteImpl(level, format, &val);
   va_end(val);
 }
 
 void Logger::Debug(const char *format, ...) {
   va_list val;
   va_start(val, format);
-  Write(LogLevel::Debug, format, val);
+  WriteImpl(LogLevel::Debug, format, &val);
   va_end(val);
 }
 
 void Logger::Info(const char *format, ...) {
   va_list val;
   va_start(val, format);
-  Write(LogLevel::Info, format, val);
+  WriteImpl(LogLevel::Info, format, &val);
   va_end(val);
 }
 
 void Logger::Error(const char *format, ...) {
   va_list val;
   va_start(val, format);
-  Write(LogLevel::Error, format, val);
+  WriteImpl(LogLevel::Error, format, &val);
   va_end(val);
 }
 
 void Logger::Fatal(const char *format, ...) {
   va_list val;
   va_start(val, format);
-  Write(LogLevel::Fatal, format, val);
+  WriteImpl(LogLevel::Fatal, format, &val);
   va_end(val);
 }
 
-inline void Logger::Write(LogLevel level, const char *format, va_list* val) {
+inline void Logger::WriteImpl(LogLevel level,
+    const char *format, va_list* val) {
   if (level >= level_) {  // omit the message with low level
     std::string level_str = GetLevelStr(level);
     std::string time_str = GetSystemTime();
     va_list val_copy;
     va_copy(val_copy, *val);
     // write to STDOUT
-    printf("[%s] [%s] ", level_str.c_str(), time_str.c_str());
-    vprintf(format, *val);
-    fflush(stdout);
+    if (MV_CONFIG_logtostderr) {
+      fprintf(stderr, "[%s] [%s] ", level_str.c_str(), time_str.c_str());
+      vfprintf(stderr, format, *val);
+    } else {
+      printf("[%s] [%s] ", level_str.c_str(), time_str.c_str());
+      vprintf(format, *val);
+      fflush(stdout);
+    }
     // write to log file
     if (file_ != nullptr) {
       fprintf(file_, "[%s] [%s] ", level_str.c_str(), time_str.c_str());
@@ -130,7 +140,7 @@ std::string Logger::GetLevelStr(LogLevel level) {
   default: return "UNKNOW";
   }
 }
-//-- End of Logger rountine ----------------------------------------------/
+//-- End of Logger routine ----------------------------------------------/
 
 Logger Log::logger_;    // global (in process) static Logger instance
 
@@ -149,35 +159,35 @@ void Log::ResetKillFatal(bool is_kill_fatal) {
 void Log::Write(LogLevel level, const char *format, ...) {
   va_list val;
   va_start(val, format);
-  logger_.Write(level, format, &val);
+  logger_.WriteImpl(level, format, &val);
   va_end(val);
 }
 
 void Log::Debug(const char *format, ...) {
   va_list val;
   va_start(val, format);
-  logger_.Write(LogLevel::Debug, format, &val);
+  logger_.WriteImpl(LogLevel::Debug, format, &val);
   va_end(val);
 }
 
 void Log::Info(const char *format, ...) {
   va_list val;
   va_start(val, format);
-  logger_.Write(LogLevel::Info, format, &val);
+  logger_.WriteImpl(LogLevel::Info, format, &val);
   va_end(val);
 }
 
 void Log::Error(const char *format, ...) {
   va_list val;
   va_start(val, format);
-  logger_.Write(LogLevel::Error, format, &val);
+  logger_.WriteImpl(LogLevel::Error, format, &val);
   va_end(val);
 }
 
 void Log::Fatal(const char *format, ...) {
   va_list val;
   va_start(val, format);
-  logger_.Write(LogLevel::Fatal, format, &val);
+  logger_.WriteImpl(LogLevel::Fatal, format, &val);
   va_end(val);
 }
 

@@ -38,7 +38,7 @@ void Server::ProcessGet(MessagePtr& msg) {
   if (msg->data().size() != 0) {
     MessagePtr reply(msg->CreateReplyMessage());
     int table_id = msg->table_id();
-    CHECK(table_id >= 0 && table_id < store_.size());
+    CHECK(table_id >= 0 && table_id < static_cast<int>(store_.size()));
     store_[table_id]->ProcessGet(msg->data(), &reply->data());
     SendTo(actor::kCommunicator, reply);
   }
@@ -50,7 +50,7 @@ void Server::ProcessAdd(MessagePtr& msg) {
   if (msg->data().size() != 0) {
     MessagePtr reply(msg->CreateReplyMessage());
     int table_id = msg->table_id();
-    CHECK(table_id >= 0 && table_id < store_.size());
+    CHECK(table_id >= 0 && table_id < static_cast<int>(store_.size()));
     store_[table_id]->ProcessAdd(msg->data());
     SendTo(actor::kCommunicator, reply);
   }
@@ -65,7 +65,6 @@ void Server::ProcessAdd(MessagePtr& msg) {
 // If worker k has add delta to server j times when its i-th Get 
 // then the server will return the parameter after all K 
 // workers finished their j-th update
-
 class SyncServer : public Server {
 public:
   SyncServer() : Server() {
@@ -227,10 +226,8 @@ Server* Server::GetServer() {
     Log::Info("Create a async server\n");
     return new Server();
   }
-  // if (MV_CONFIG_backup_worker_ratio > 0.0) {
   Log::Info("Create a sync server\n");
   return new SyncServer();
-  // }
 }
 
 }  // namespace multiverso

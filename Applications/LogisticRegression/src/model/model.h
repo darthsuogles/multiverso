@@ -29,9 +29,10 @@ public:
   explicit Model(Configure& config);
   virtual ~Model();
   // update model with #count samples
-  virtual void Update(int count, Sample<EleType>**samples);
+  // \return sum of train loss of every sample
+  virtual float Update(int count, Sample<EleType>**samples);
   // \param input one input
-  virtual void Predict(Sample<EleType>*sample, EleType*predict);
+  // \return correct number
   virtual int Predict(int count, Sample<EleType>**samples, EleType**predicts);
   // load model data from a binary file
   virtual void Load(const std::string& model_file);
@@ -47,8 +48,8 @@ public:
   static Model<EleType>* Get(Configure& config);
 
 protected:
-  // copmpute update delta
-  virtual void GetGradient(Sample<EleType>* sample, DataBlock<EleType>* delta);
+  // compute update delta
+  virtual float GetGradient(Sample<EleType>* sample, DataBlock<EleType>* delta);
   // update table
   virtual void UpdateTable(DataBlock<EleType>* delta);
 
